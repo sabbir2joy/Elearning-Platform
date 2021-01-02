@@ -236,7 +236,7 @@ namespace FinalProject.Controllers
         {
 
             //Video video = new Video();
-            video.SubjectId = 1;
+            //video.SubjectId = 1;
 
             var ctx = HttpContext.Current;
             var root = ctx.Server.MapPath("~/Uploaded/Videos/");
