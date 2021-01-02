@@ -37,8 +37,38 @@ namespace FinalProject.Controllers
             return Ok(stdRepo.GetOnlineStudentsHey(Na));
         }
 
+        //Create A  New Student
+        /*   [Route("")]
+           public IHttpActionResult Post(OnlineStudent onlineStudent)
+           {
+               stdRepo.Insert(onlineStudent);
+               string url = Url.Link("GetPostById", new { id = onlineStudent.StudentId });
+               return Created(url, onlineStudent);
+           }*/
+
+
+        //Edit a Student Information
+        [Route("api/OnlineStudents/putinfo")]
+        [StudentAuthorization]
+        public IHttpActionResult Put([FromBody] OnlineStudent onli)
+        {
+
+            stdRepo.Edit(onli);
+            return Ok(onli);
+        }
+
+        /*  //Delete a Student
+          [Route("{id}")]
+          public IHttpActionResult Delete(int id)
+          {
+              stdRepo.Delete(id);
+              return StatusCode(HttpStatusCode.NoContent);
+          }*/
+    }
+}
+
+
 
       
 
-    }
-}
+    
