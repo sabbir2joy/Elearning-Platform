@@ -18,7 +18,7 @@ namespace FinalProject.Controllers
 
         SubjectRepository subRepo = new SubjectRepository();
         MyMaterialRepository matRepo = new MyMaterialRepository();
-        VideoRepository vidRepo = new VideoRepository();
+       // VideoRepository vidRepo = new VideoRepository();
 
 
         [Route("")]
