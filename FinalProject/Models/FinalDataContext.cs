@@ -27,7 +27,7 @@ namespace FinalProject.Models
         virtual public DbSet<Registration> Registrations { get; set; }
 
         virtual public DbSet<TeacherFinancial> TeacherFinancials { get; set; }
-        virtual public DbSet<Video> Videos { get; set; }
+        
 
     }
 }
