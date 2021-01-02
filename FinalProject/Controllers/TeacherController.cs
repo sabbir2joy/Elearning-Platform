@@ -3,10 +3,13 @@ using FinalProject.Models;
 using FinalProject.Repository;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 
 namespace FinalProject.Controllers
@@ -56,6 +59,105 @@ namespace FinalProject.Controllers
             string url = Url.Link("GetPostById", new { id = tch.TeacherId });
             return Created(url, tch);
 
+        }
+
+        //Upload a Photo
+
+        [Route("PhotoUpload")]
+        [HttpPost]
+        public async Task<IHttpActionResult> PostPhoto()
+        {
+
+            string Name = Thread.CurrentPrincipal.Identity.Name;
+
+            int id = techRepo.GetTeacherId("testT");
+
+            Teacher teacher = techRepo.GetById(id);
+
+
+            var ctx = HttpContext.Current;
+            var root = ctx.Server.MapPath("~/Uploaded/ProImage/");
+
+
+            var provider = new MultipartFormDataStreamProvider(root);
+            try
+            {
+                await Request.Content.ReadAsMultipartAsync(provider);
+
+                string localFileName;
+                string filePath;
+
+
+                foreach (var file in provider.FileData)
+                {
+                    var name = file.Headers
+                        .ContentDisposition
+                        .FileName;
+                    //Remove Double quotes
+                    name = name.Trim('"');
+
+                    localFileName = file.LocalFileName;
+                    filePath = Path.Combine(root, name);
+
+
+
+                    teacher.ImageName = file.LocalFileName;
+                    teacher.ImagePath = Path.Combine(root, name);
+
+                    techRepo.Edit(teacher);
+
+                    File.Move(localFileName, filePath);
+
+
+                }
+
+                //techRepo.Edit(teacher);
+
+            }
+            catch (Exception e)
+            {
+                //return $"Error: {e.Message}";
+                return StatusCode(HttpStatusCode.ExpectationFailed);
+            }
+
+            return Ok();
+        }
+
+
+
+        //Edit a Teacher Information
+        [Route("UpdateProfile")]
+        public IHttpActionResult PutTeacher([FromBody] Teacher tch)
+        {
+            //string Name = Thread.CurrentPrincipal.Identity.Name;
+
+            int id = techRepo.GetTeacherId("testT");
+
+            tch.TeacherId = id;
+            techRepo.Edit(tch);
+            return Ok(tch);
+        }
+
+        //Delete a Teacher
+        [Route("{id}")]
+        public IHttpActionResult Delete(int id)
+        {
+            techRepo.Delete(id);
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        //Get All Subjects of a Teacher 
+        [Route("Subjects")]
+        [StudentAuthorization]
+        public IHttpActionResult GetSubject()
+        {
+            string Name = Thread.CurrentPrincipal.Identity.Name;
+
+            int id = techRepo.GetTeacherId(Name);
+
+            List<Subject> subjects = techRepo.GetSubjectByTeacher(id);
+
+            return Ok(subjects);
         }
 
     }
