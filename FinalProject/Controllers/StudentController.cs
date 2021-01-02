@@ -3,10 +3,13 @@ using FinalProject.Models;
 using FinalProject.Repository;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 
 namespace FinalProject.Controllers
@@ -85,6 +88,72 @@ namespace FinalProject.Controllers
         {
             string Name = Thread.CurrentPrincipal.Identity.Name;
             return Ok(uRepo.getUserInfoByName(Name));
+        }
+
+        [Route("api/students/updateUserInfo")]
+        [StudentAuthorization]
+
+        public IHttpActionResult PutUserInfo([FromBody] User u)
+        {
+            uRepo.Edit(u);
+
+            // string Name = Thread.CurrentPrincipal.Identity.Name;
+            return Ok(u);
+        }
+
+        [Route("api/students/photoupload")]
+        // [StudentAuthorization]
+        public async Task<string> PostPhoto()
+        {
+            // string Nam = Thread.CurrentPrincipal.Identity.Name;
+
+            //on = osRepo.getInfoByName(Nam);
+
+            var ctx = HttpContext.Current;
+            var root = ctx.Server.MapPath("~/Uploaded/Videos2");
+
+
+            var provider = new MultipartFormDataStreamProvider(root);
+            try
+            {
+                await Request.Content.ReadAsMultipartAsync(provider);
+
+                string localFileName;
+                string filePath;
+
+
+                foreach (var file in provider.FileData)
+                {
+                    var name = file.Headers
+                        .ContentDisposition
+                        .FileName;
+                    //Remove Double quotes
+                    name = name.Trim('"');
+
+                    localFileName = file.LocalFileName;
+                    filePath = Path.Combine(root, name);
+
+
+
+                    // on.ImageName = file.LocalFileName;
+                    // on.ImagePath = Path.Combine(root, name);
+
+                    // osRepo.Edit(on);
+
+                    File.Move(localFileName, filePath);
+
+
+                }
+
+                //techRepo.Edit(teacher);
+
+            }
+            catch (Exception e)
+            {
+                return $"Error: {e.Message}";
+            }
+
+            return "Photo Uploaded";
         }
     }
 }
