@@ -160,5 +160,129 @@ namespace FinalProject.Controllers
             return Ok(subjects);
         }
 
+
+        //////////////////////////////////////////////////////////////////////////
+
+        //Create a New Material
+        /*[Route("Subjects/MaterialUpload/{id}")]
+
+        [HttpPost]
+        public async Task<IHttpActionResult> PostMaterial(int id)
+        {
+
+            //subRepo.Insert(sub);
+            //string url = Url.Link("GetASubjectByTeacherId", new { sid = sub.SubjectId, tid = sub.TeacherId });
+            //return Created(url, sub);
+
+            MyMaterial myMaterial = new MyMaterial();
+            myMaterial.SubjectId = id;
+
+
+
+            var ctx = HttpContext.Current;
+            var root = ctx.Server.MapPath("~/Uploaded/Materials/");
+
+
+
+            var provider = new MultipartFormDataStreamProvider(root);
+            try
+            {
+                await Request.Content.ReadAsMultipartAsync(provider);
+
+                string localFileName;
+                string filePath;
+
+
+                foreach (var file in provider.FileData)
+                {
+                    var name = file.Headers
+                        .ContentDisposition
+                        .FileName;
+                    //Remove Double quotes
+                    name = name.Trim('"');
+
+                    localFileName = file.LocalFileName;
+                    filePath = Path.Combine(root, name);
+
+
+
+                    myMaterial.MaterialName = file.LocalFileName;
+                    myMaterial.MaterialLink = Path.Combine(root, name);
+
+                    matRepo.Insert(myMaterial);
+
+                    File.Move(localFileName, filePath);
+
+
+                }
+            }
+            catch (Exception e)
+            {
+                return StatusCode(HttpStatusCode.ExpectationFailed);
+            }
+
+            return Ok(myMaterial);
+        }*/
+
+
+
+
+
+
+        [Route("Subjects/VideoUpload")]
+
+        [HttpPost]
+        public async Task<string> PostVideos()
+        {
+
+            //Video video = new Video();
+            video.SubjectId = 1;
+
+            var ctx = HttpContext.Current;
+            var root = ctx.Server.MapPath("~/Uploaded/Videos/");
+
+
+
+            var provider = new MultipartFormDataStreamProvider(root);
+            try
+            {
+                await Request.Content.ReadAsMultipartAsync(provider);
+
+                string localFileName;
+                string filePath;
+
+
+                foreach (var file in provider.FileData)
+                {
+                    var name = file.Headers
+                        .ContentDisposition
+                        .FileName;
+                    //Remove Double quotes
+                    name = name.Trim('"');
+
+                    localFileName = file.LocalFileName;
+                    filePath = Path.Combine(root, name);
+
+
+
+                    //video.VideoName = file.LocalFileName;
+                    //video.VideoPath = Path.Combine(root, name);
+
+                    //vidRepo.Insert(video);
+
+                    File.Move(localFileName, filePath);
+
+
+                }
+            }
+            catch (Exception e)
+            {
+                return $"Error: {e.Message}";
+            }
+
+
+            return "Video Uploaded";
+        }
+
     }
 }
