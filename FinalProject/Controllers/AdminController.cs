@@ -195,7 +195,112 @@ namespace FinalProject.Controllers
             subRepo.Delete(sid);
             return StatusCode(HttpStatusCode.NoContent);
         }
+        /////////////////////////// CRUD Operation for Message ////////////////////////////////
+        /*
+        last MessageRepository msgRepo = new MessageRepository();
 
+        //Get All Messages 
+
+        [Route("api/Admins/Messages")]
+        public IHttpActionResult GetMessages()
+        {
+
+            //return Ok(msgRepo.GetAll());
+        }
+
+        //Get All Messages of a Students 
+        [Route("api/Admins/Students/{id}/Messages/", Name = "GetMessagesByStudentId")]
+        public IHttpActionResult GetMessagesOfAstudent(int id)
+        {
+
+           // return Ok(stdRepo.GetMessageByStudent(id));
+        }
+
+        //Get a Specific Message of a Students 
+        [Route("api/Admins/Students/{sid}/Messages/{mid}", Name = "GetAMessageByStudentId")]
+        public IHttpActionResult GetAMessagesOfAstudent(int sid, int mid)
+        {
+            //List<Message> msgList = stdRepo.GetMessageByStudent(sid);
+
+           // Message message = msgRepo.GetById(mid);
+            bool check = false;
+            foreach (var item in msgList)
+            {
+                if (item.MessageId == message.MessageId)
+                    check = true;
+            }
+
+            if (message == null || check == false)
+            {
+                return StatusCode(HttpStatusCode.NoContent);
+            }
+            return Ok(message);
+        }
+
+        //Create a Message for a Student
+        [Route("api/Admins/Students/{sid}/Messages/{mid}")]
+        public IHttpActionResult Post(Message msg)
+        {
+            msgRepo.Insert(msg);
+            string url = Url.Link("GetAMessageByStudentId", new { mid = msg.MessageId, sid = msg.StudentId });
+            return Created(url, msg);
+        }
+
+        //Delete A Message for a Student 
+
+        [Route("api/Admins/Students/{sid}/Messages/{mid}")]
+        public IHttpActionResult DeleteAMessagesOfAstudent(int sid, int mid)
+        {
+            List<Message> msgList = stdRepo.GetMessageByStudent(sid);
+            Message message = msgRepo.GetById(mid);
+            bool check = false;
+            foreach (var item in msgList)
+            {
+                if (item.MessageId == message.MessageId)
+                    check = true;
+            }
+
+            if (check == false)
+            {
+                return StatusCode(HttpStatusCode.Unauthorized);
+            }
+
+            msgRepo.Delete(mid);
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+
+        ////////////////////////// CRUD Operation for User //////////////////////////////////
+
+        UserRepository userRepo = new UserRepository();
+
+        [Route("api/Admins/Users")]
+        public IHttpActionResult GetAllUser()
+        {
+            return Ok(userRepo.GetUser());
+        }
+
+        //Get a Specific User 
+        [Route("api/Admins/Users/{id}", Name = "GetAUserByUserId")]
+        public IHttpActionResult GetAUser(int id)
+        {
+            List<User> userList = userRepo.GetUser(id);
+
+            User user = userRepo.GetById(id);
+            bool check = false;
+            foreach (var item in userList)
+            {
+                if (item.UserId == user.UserId)
+                    check = true;
+            }
+
+            if (user == null || check == false)
+            {
+                return StatusCode(HttpStatusCode.NoContent);
+            }
+            return Ok(user);
+        }
+        */
 
     }
 }
