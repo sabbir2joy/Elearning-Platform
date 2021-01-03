@@ -62,6 +62,39 @@ namespace FinalProject.Controllers
             return Created(url, sub);
         }
 
+        //Edit a Subject 
+        [Route("api/Teachers/{tid}/Subjects/{sid}")]
+        public IHttpActionResult Put([FromBody] Subject subject, int tid, int sid)
+        {
+
+            subject.SubjectId = sid;
+            subRepo.Edit(subject);
+            return Ok(subject);
+        }
+
+        //Delete A subject for a teacher 
+
+        [Route("api/Teachers/{tid}/Subjects/{sid}")]
+        public IHttpActionResult Delete(int tid, int sid)
+        {
+            List<Subject> subList = techRepo.GetSubjectByTeacher(tid);
+            Subject subject = subRepo.GetById(sid);
+            bool check = false;
+            foreach (var item in subList)
+            {
+                if (item.SubjectId == subject.SubjectId)
+                    check = true;
+            }
+
+            if (check == false)
+            {
+                return StatusCode(HttpStatusCode.Unauthorized);
+            }
+
+            subRepo.Delete(sid);
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
 
     }
 }
