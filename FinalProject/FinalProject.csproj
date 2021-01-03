@@ -120,6 +120,7 @@
     <Compile Include="Models\Teacher.cs" />
     <Compile Include="Models\TeacherFinancial.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Video.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\CoursesOfStudentRepository.cs" />
     <Compile Include="Repository\ICoursesOfStudent.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Repository\ISubjectRepository.cs" />
     <Compile Include="Repository\ITeacherRepository.cs" />
     <Compile Include="Repository\IUserRepository.cs" />
+    <Compile Include="Repository\IVideoRepository.cs" />
     <Compile Include="Repository\LoginRepository.cs" />
     <Compile Include="Repository\MessageRepository.cs" />
     <Compile Include="Repository\MyMaterialRepository.cs" />
@@ -140,6 +142,7 @@
     <Compile Include="Repository\TeacherFinancialRepository.cs" />
     <Compile Include="Repository\TeacherRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
+    <Compile Include="Repository\VideoRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
